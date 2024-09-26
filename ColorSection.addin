@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>Command ColorSection</Text>
+    <Description>Some description for ColorSection</Description>
+    <Assembly>ColorSection.dll</Assembly>
+    <FullClassName>ColorSection.Command</FullClassName>
+    <ClientId>dfc135f7-0c2c-4983-ab7c-2deaa8ade998</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>Application ColorSection</Name>
+    <Assembly>ColorSection.dll</Assembly>
+    <FullClassName>ColorSection.App</FullClassName>
+    <ClientId>7cf684dd-ed23-4e34-b428-b68a3e449826</ClientId>
+    <VendorId>com.typepad.thebuildingcoder</VendorId>
+    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
