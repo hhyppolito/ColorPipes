@@ -1,0 +1,1 @@
+![GRIDS](Docs/ColorSectionFilter.gif)
