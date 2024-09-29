@@ -51,41 +51,85 @@ namespace ColorSection
 
             }
 
-            names.Distinct().ToList();
+            names = names.Distinct().ToList();
 
 
-            // Modify document within a transaction
-            try
+            // Modify document 
+            int i = 0;
+            foreach (string name in names)
             {
+                Random random = new Random();
+                byte randomNumber1 = (byte)random.Next(0, 256);
+                byte randomNumber2 = (byte)random.Next(0, 256);
+                byte randomNumber3 = (byte)random.Next(0, 256);
+
+
+
+                Color color = new Color(randomNumber1, randomNumber2, randomNumber3);
+                try
+                {
+                    createFilterView(doc, doc.ActiveView, color, name);
+                }
+                catch
+                { i++; }
+                //ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
+                ////ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name, true)
+                //ParameterFilterElement filterElement = ParameterFilterElement.Create(doc, name, categories, filter);
+                //doc.ActiveView.AddFilter(filterElement.Id);
+                //doc.ActiveView.SetFilterVisibility(filterElement.Id, false);
+
+            }
+
+            TaskDialog.Show("Filter creation", $"{i} filters already exist.");
+            return Result.Succeeded;
+        }
+        //static Byte ramdomByte()
+        //{
+        //    Random random = new Random();
+        //    byte randomByte = (byte)random.Next(0, 256);
+        //    return (byte)randomByte;
+        //}
+
+        void createFilterView(Autodesk.Revit.DB.Document doc, Autodesk.Revit.DB.View view, Autodesk.Revit.DB.Color objColor, string name)
+        {
+            //try
+            //{
                 using (Transaction tx = new Transaction(doc))
                 {
                     tx.Start("Transaction Name");
+                    List<ElementId> cats = new List<ElementId>();
+                    cats.Add(new ElementId(BuiltInCategory.OST_StructuralColumns));
+                    cats.Add(new ElementId(BuiltInCategory.OST_StructuralFraming));
 
-                    //Apply filter
-                    foreach (string name in names)
-                    {
-                        ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME),name));
-                        //ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name, true)
-                        ParameterFilterElement filterElement = ParameterFilterElement.Create(doc, name, categories, filter);
-                        doc.ActiveView.AddFilter(filterElement.Id);
-                        doc.ActiveView.SetFilterVisibility(filterElement.Id, false);
+                    //FilteredElementCollector parameterCollector = new FilteredElementCollector(doc, view.Id);
 
-                    }
+                    ////
+                    ////Dim parameter As Parameter = parameterCollector.OfClass(GetType(Rebar)).FirstElement().LookupParameter("RelNo")
 
+                    //List<FilterRule> filterRules = new List<FilterRule>();
+                    
+                    ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
+
+                    //filterRules.Add(ParameterFilterRuleFactory.CreateEqualsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
+
+                    ParameterFilterElement parameterFilterElement = ParameterFilterElement.Create(doc, $"{name}_", cats, filter);
+
+                    OverrideGraphicSettings filterSettings = new OverrideGraphicSettings();
+                    filterSettings.SetSurfaceForegroundPatternColor(objColor);
+                    filterSettings.SetSurfaceForegroundPatternId(ElementId.Parse("4"));
+                    filterSettings.SetSurfaceBackgroundPatternVisible(true);
+                    view.AddFilter(parameterFilterElement.Id);
+                    view.SetFilterOverrides(parameterFilterElement.Id, filterSettings);
 
                     tx.Commit();
                 }
-                return Result.Succeeded;
-            }
+            // }
 
-            catch
-            {
-                return Result.Failed;
-            }
-
-
+            //catch
+            //{
+               // TaskDialog.Show("Message", "Task not complited");
+            //}
 
         }
-
     }
 }

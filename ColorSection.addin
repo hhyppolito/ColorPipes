@@ -6,15 +6,23 @@
     <Assembly>ColorSection.dll</Assembly>
     <FullClassName>ColorSection.Command</FullClassName>
     <ClientId>dfc135f7-0c2c-4983-ab7c-2deaa8ade998</ClientId>
-    <VendorId>com.typepad.thebuildingcoder</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+    <VendorId>hfh</VendorId>
+    <VendorDescription>hfh</VendorDescription>
   </AddIn>
   <AddIn Type="Application">
     <Name>Application ColorSection</Name>
     <Assembly>ColorSection.dll</Assembly>
     <FullClassName>ColorSection.App</FullClassName>
     <ClientId>7cf684dd-ed23-4e34-b428-b68a3e449826</ClientId>
-    <VendorId>com.typepad.thebuildingcoder</VendorId>
-    <VendorDescription>The Building Coder, http://thebuildingcoder.typepad.com</VendorDescription>
+    <VendorId>hfh</VendorId>
+    <VendorDescription>hfh</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command EraseFilte">
+  	<Name>EraseFilters</Name>
+  	<Assembly>ColorSection.dll</Assembly>
+  	<FullClassName>ColorSection.App</FullClassName>
+  	<ClientId>4C88D3CB-C4B4-49E7-8F12-F4962292CD62</ClientId>
+  	<VendorId>hfh</VendorId>
+  	<VendorDescription>hfh</VendorDescription>
   </AddIn>
 </RevitAddIns>
