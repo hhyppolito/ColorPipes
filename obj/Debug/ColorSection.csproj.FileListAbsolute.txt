@@ -1,0 +1,6 @@
+C:\Users\hfh\Source\Repos\ColorSection\bin\Debug\ColorSection.dll
+C:\Users\hfh\Source\Repos\ColorSection\bin\Debug\ColorSection.pdb
+C:\Users\hfh\Source\Repos\ColorSection\obj\Debug\ColorSection.csproj.AssemblyReference.cache
+C:\Users\hfh\Source\Repos\ColorSection\obj\Debug\ColorSection.csproj.CoreCompileInputs.cache
+C:\Users\hfh\Source\Repos\ColorSection\obj\Debug\ColorSection.dll
+C:\Users\hfh\Source\Repos\ColorSection\obj\Debug\ColorSection.pdb
