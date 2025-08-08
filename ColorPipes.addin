@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Text>ColorPipes</Text>
+		<Description>Some description for ColorPipes</Description>
+		<Assembly>ColorPipes.dll</Assembly>
+		<FullClassName>ColorPipes.Command</FullClassName>
+		<ClientId>BB3E12CC-2AB9-4B84-9474-CC0A1B728F1A</ClientId>
+		<VendorId>hfh</VendorId>
+		<VendorDescription>hfh</VendorDescription>
+	</AddIn>
+	<AddIn Type="Command">
+		<Text>EraseFilters</Text>
+		<Description>Some description for EraseFilters</Description>
+		<Assembly>ColorSection.dll</Assembly>
+		<FullClassName>ColorSection.EraseFilters</FullClassName>
+		<ClientId>A6B4147D-BEDA-47A9-B8E9-D7D88D1B1C22</ClientId>
+		<VendorId>hfh</VendorId>
+		<VendorDescription>hfh</VendorDescription>
+	</AddIn>
+	<AddIn Type="Application">
+		<Name>Application ColorPipes</Name>
+		<Assembly>ColorPipes.dll</Assembly>
+		<FullClassName>ColorPipes.App</FullClassName>
+		<ClientId>A3544CDA-8D70-4167-8CC9-1AE5DF7D46E8</ClientId>
+		<VendorId>hfh</VendorId>
+		<VendorDescription>hfh</VendorDescription>
+	</AddIn>
+</RevitAddIns>
+

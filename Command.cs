@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 #endregion
 
-namespace ColorSection
+namespace ColorPipes
 {
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
@@ -26,37 +26,27 @@ namespace ColorSection
             Document doc = uidoc.Document;
 
             // Retrieve elements from database
-            ICollection<FilteredElementCollector> Elements = new List<FilteredElementCollector>();
-            FilteredElementCollector beam = new FilteredElementCollector(doc).WhereElementIsNotElementType().OfCategory(BuiltInCategory.OST_StructuralFraming);
-            FilteredElementCollector columns = new FilteredElementCollector(doc).WhereElementIsNotElementType().OfCategory(BuiltInCategory.OST_StructuralColumns);
-            Elements.Add(beam);
-            Elements.Add(columns);
-
-            // Retrive categories
-            List<ElementId> categories = new List<ElementId>();
-            categories.Add(new ElementId(BuiltInCategory.OST_StructuralColumns));
-            categories.Add(new ElementId(BuiltInCategory.OST_StructuralFraming));
+            List<Element> pipes = new FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_PipeCurves).WhereElementIsNotElementType().ToList();
 
 
             // Filtered element collector is iterable
 
-            List<string> names = new List<string>();
+            List<double> names = new List<double>();
 
-            foreach (FilteredElementCollector e in Elements)
-            {
-                foreach (Element e1 in e)
+            foreach (Element pipe in pipes)
                 {
-                    names.Add(e1.Name.ToString());
+                    double diameterInFeet = pipe.get_Parameter(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM).AsDouble();
+                    // Convert the diameter to inches for easier use (1 foot = 12 inches)
+                    //double diameterInmilimiter = diameterInFeet * 304.8;
+                    names.Add(diameterInFeet);
                 }
-
-            }
-
+                        
             names = names.Distinct().ToList();
 
 
             // Modify document 
             int i = 0;
-            foreach (string name in names)
+            foreach (double name in names)
             {
                 Random random = new Random();
                 byte randomNumber1 = (byte)random.Next(0, 256);
@@ -72,47 +62,26 @@ namespace ColorSection
                 }
                 catch
                 { i++; }
-                //ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
-                ////ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name, true)
-                //ParameterFilterElement filterElement = ParameterFilterElement.Create(doc, name, categories, filter);
-                //doc.ActiveView.AddFilter(filterElement.Id);
-                //doc.ActiveView.SetFilterVisibility(filterElement.Id, false);
-
+               
             }
 
             TaskDialog.Show("Filter creation", $"{i} filters already exist.");
             return Result.Succeeded;
         }
-        //static Byte ramdomByte()
-        //{
-        //    Random random = new Random();
-        //    byte randomByte = (byte)random.Next(0, 256);
-        //    return (byte)randomByte;
-        //}
+ 
 
-        void createFilterView(Autodesk.Revit.DB.Document doc, Autodesk.Revit.DB.View view, Autodesk.Revit.DB.Color objColor, string name)
+        void createFilterView(Autodesk.Revit.DB.Document doc, Autodesk.Revit.DB.View view, Autodesk.Revit.DB.Color objColor, double name)
         {
-            //try
-            //{
+
                 using (Transaction tx = new Transaction(doc))
                 {
                     tx.Start("Transaction Name");
                     List<ElementId> cats = new List<ElementId>();
-                    cats.Add(new ElementId(BuiltInCategory.OST_StructuralColumns));
-                    cats.Add(new ElementId(BuiltInCategory.OST_StructuralFraming));
+                    cats.Add(new ElementId(BuiltInCategory.OST_PipeCurves));;
+                 
+                    ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateEqualsRule(new ElementId(BuiltInParameter.RBS_PIPE_DIAMETER_PARAM),name, 0.00000001));
 
-                    //FilteredElementCollector parameterCollector = new FilteredElementCollector(doc, view.Id);
-
-                    ////
-                    ////Dim parameter As Parameter = parameterCollector.OfClass(GetType(Rebar)).FirstElement().LookupParameter("RelNo")
-
-                    //List<FilterRule> filterRules = new List<FilterRule>();
-                    
-                    ElementParameterFilter filter = new ElementParameterFilter(ParameterFilterRuleFactory.CreateContainsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
-
-                    //filterRules.Add(ParameterFilterRuleFactory.CreateEqualsRule(new ElementId(BuiltInParameter.ALL_MODEL_TYPE_NAME), name));
-
-                    ParameterFilterElement parameterFilterElement = ParameterFilterElement.Create(doc, $"{name}_", cats, filter);
+                    ParameterFilterElement parameterFilterElement = ParameterFilterElement.Create(doc, $"Ø{name * 304.8}", cats, filter);
 
                     OverrideGraphicSettings filterSettings = new OverrideGraphicSettings();
                     filterSettings.SetSurfaceForegroundPatternColor(objColor);
@@ -123,13 +92,6 @@ namespace ColorSection
 
                     tx.Commit();
                 }
-            // }
-
-            //catch
-            //{
-               // TaskDialog.Show("Message", "Task not complited");
-            //}
-
         }
     }
 }

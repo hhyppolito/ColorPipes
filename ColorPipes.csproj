@@ -13,8 +13,8 @@
     <ProjectGuid>{255F5F2F-0DF7-4B90-A7C6-EB26A6BDB68B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ColorSection</RootNamespace>
-    <AssemblyName>ColorSection</AssemblyName>
+    <RootNamespace>ColorPipes</RootNamespace>
+    <AssemblyName>ColorPipes</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ColorSection.addin" />
+    <Content Include="ColorPipes.addin" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

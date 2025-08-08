@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace ColorSection
+namespace ColorPipes
 {
     internal class App : IExternalApplication
     {
